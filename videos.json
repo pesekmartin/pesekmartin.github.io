@@ -1,9 +1,9 @@
 {
   "BLIKBLIK": {
-    "label": "BLIK x BLIK",
+    "label": "Záznamy z Akcí",
     "videos": [
-      "jPdJ4hhsbLk",
-      "Ke9zyYUJVYE"
+      "rwPX3azojHw",
+      "jPdJ4hhsbLk"
     ]
   },
   "Ferrari": {
@@ -25,15 +25,18 @@
     ]
   },
   "Architektura": {
-    "label": "Architektura",
+    "label": "Reels",
     "videos": [
-      "z3anqmVt1dk"
+      "pVS_FxAV2b0",
+      "_sLg4ZBDM0A",
+      "IY8fzmO8COM"
+
     ]
   },
   "Krajina": {
-    "label": "Krajina",
+    "label": "Ostatní",
     "videos": [
-      "rwPX3azojHw"
+      "z3anqmVt1dk"
     ]
   }
 }

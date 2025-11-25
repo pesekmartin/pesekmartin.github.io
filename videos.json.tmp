@@ -1,0 +1,26 @@
+{
+  "BLIKBLIK": {
+    "label": "BLIK x BLIK",
+    "videos": ["jPdJ4hhsbLk"]
+  },
+  "Ferrari": {
+    "label": "Ferrari",
+    "videos": ["tA7nG6Xgm3Q"]
+  },
+  "Hokej": {
+    "label": "U20 Sparta x Pardubice",
+    "videos": ["z3anqmVt1dk"]
+  },
+  "Architektura": {
+    "label": "Architektura",
+    "videos": ["vZSJj9pkaps"]
+  },
+  "Krajina": {
+    "label": "Krajina",
+    "videos": ["rwPX3azojHw"]
+  },
+  "VolnaTvorba": {
+    "label": "Volná tvorba",
+    "videos": ["Ke9zyYUJVYE"]
+  }
+}

@@ -22,6 +22,7 @@
       max-width: 1000px;
       width: 100%;
       margin: 0 auto;
+      position: relative;
       padding: 40px 20px;
       box-sizing: border-box;
     }
@@ -76,6 +77,76 @@
       grid-template-columns: repeat(3, 1fr);
       gap: 30px;
       margin-top: 30px;
+    }
+
+    /* Folder gallery (like in foto.html) */
+    .folder-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+      margin-top: 30px;
+    }
+
+    .folder-wrapper {
+      position: relative;
+      overflow: hidden;
+      border-radius: 15px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+      /* make folder tiles 16:9 so video thumbnails fill without letterboxing */
+      aspect-ratio: 16/9;
+      background: #111;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ddd;
+      font-weight: bold;
+    }
+
+    .folder-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 15px;
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      opacity: 1;
+      will-change: transform;
+      transform: translateZ(0);
+      /* ensure any background color doesn't show through */
+      background-color: transparent;
+    }
+
+    .folder-wrapper:hover {
+      transform: scale(1.03);
+      box-shadow: 0 10px 20px rgba(255, 255, 255, 0.08);
+    }
+
+    /* Match foto.html behavior: scale the wrapper, not the image, so thumbnail fills to the edge */
+
+    .hidden { display: none !important; }
+
+    /* small close/back button placed below the gallery title */
+    .back-close {
+      position: relative;
+      float: right;
+      margin-top: 8px;
+      background: transparent;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 1.6rem;
+      line-height: 1;
+      padding: 6px 12px;
+      cursor: pointer;
+    }
+    .back-close:hover { background: rgba(255,255,255,0.03); }
+
+    /* indicate the page title is clickable when it acts as a back control */
+    #pageTitle {
+      cursor: pointer;
+      display: inline-block;
     }
 
     .video-wrapper {
@@ -189,7 +260,7 @@
         padding: 20px 10px;
       }
       
-      .video-grid {
+      .video-grid, .folder-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 20px;
       }
@@ -230,7 +301,7 @@
         margin: 10px 0;
       }
       
-      .video-grid {
+      .video-grid, .folder-grid {
         grid-template-columns: 1fr;
         gap: 15px;
       }
@@ -284,7 +355,7 @@
 
     /* Landscape tablet adjustments */
     @media (max-width: 1024px) and (orientation: landscape) {
-      .video-grid {
+      .video-grid, .folder-grid {
         grid-template-columns: repeat(3, 1fr);
       }
     }
@@ -313,8 +384,53 @@
   </header>
 
   <div class="container">
-    <h2>Videa</h2>
-    <div class="video-grid">
+    <h2 id="pageTitle" role="button" tabindex="0">Videa</h2>
+
+    <!-- Back/close button (hidden until a folder is opened) - placed under the heading -->
+    <button id="backToFolders" class="hidden back-close" aria-label="Zpět do galerií">&times;</button>
+
+    <!-- Folder gallery: initial view (click a folder to see videos) -->
+    <div class="folder-grid" id="folderGrid">
+      <div class="photo-item">
+        <div class="folder-wrapper" data-folder="BLIKBLIK">
+          <img src="images/BLIKBLIK/BLIKBLIK1.jpg" alt="BLIKBLIK" loading="lazy">
+        </div>
+        <p class="project-title">Záznam akcí</p>
+      </div>
+      <div class="photo-item">
+        <div class="folder-wrapper" data-folder="Ferrari">
+          <img src="images/Ferrari/ferrari1.jpg" alt="Ferrari" loading="lazy">
+        </div>
+        <p class="project-title">Ferrari</p>
+      </div>
+      <div class="photo-item">
+        <div class="folder-wrapper" data-folder="Hokej">
+          <img src="images/Hokej/hokej1.jpg" alt="Hokej" loading="lazy">
+        </div>
+        <p class="project-title">Hokej</p>
+      </div>
+      <div class="photo-item">
+        <div class="folder-wrapper" data-folder="Architektura">
+          <img src="images/architektura/architektura1.jpg" alt="Architektura" loading="lazy">
+        </div>
+        <p class="project-title">Architektura</p>
+      </div>
+      <div class="photo-item">
+        <div class="folder-wrapper" data-folder="Krajina">
+          <img src="images/krajina/krajina1.jpg" alt="Krajina" loading="lazy">
+        </div>
+        <p class="project-title">Krajina</p>
+      </div>
+      <div class="photo-item">
+        <div class="folder-wrapper" data-folder="VolnaTvorba">
+          <img src="images/volnatvorba/volnatvorba1.jpg" alt="Volná tvorba" loading="lazy">
+        </div>
+        <p class="project-title">Volná tvorba</p>
+      </div>
+    </div>
+
+    <!-- Video grid (hidden initially until a folder is clicked) -->
+    <div class="video-grid hidden" id="videoGrid">
       <div class="video-item">
         <div class="video-wrapper" data-video="https://www.youtube.com/embed/jPdJ4hhsbLk?autoplay=1">
           <iframe src="https://www.youtube.com/embed/jPdJ4hhsbLk" allowfullscreen></iframe>
@@ -361,6 +477,191 @@
   </footer>
 
   <script>
+    // Per-folder video collections (inline fallback). We fetch /videos.json later.
+    const rawCollectionsFallback = {
+      BLIKBLIK: [ 'jPdJ4hhsbLk' ],
+      Ferrari: [ 'tA7nG6Xgm3Q' ],
+      Hokej: [ 'z3anqmVt1dk' ],
+      Architektura: [ 'vZSJj9pkaps' ],
+      Krajina: [ 'rwPX3azojHw' ],
+      VolnaTvorba: []
+    };
+
+    // Normalize collections to shape: { KEY: { label: string, videos: [] } }
+    function normalizeCollections(raw) {
+      const out = {};
+      for (const k of Object.keys(raw)) {
+        const v = raw[k];
+        if (Array.isArray(v)) {
+          out[k] = { label: k, videos: v.slice() };
+        } else if (v && typeof v === 'object') {
+          out[k] = {
+            label: v.label || k,
+            videos: Array.isArray(v.videos) ? v.videos.slice() : []
+          };
+        } else {
+          out[k] = { label: k, videos: [] };
+        }
+      }
+      return out;
+    }
+
+    // active collections used by the UI
+    let rawCollections = rawCollectionsFallback;
+    let collections = normalizeCollections(rawCollections);
+
+    function youtubeIdFromUrl(urlOrId) {
+      // Accept either a raw id or a full youtube url/embed string
+      if (!urlOrId) return null;
+      // If it already looks like an id (11 chars), return it
+      if (/^[a-zA-Z0-9_-]{11}$/.test(urlOrId)) return urlOrId;
+      const m = urlOrId.match(/(?:v=|\/embed\/|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+      return m ? m[1] : null;
+    }
+
+    function ytThumbUrl(id) {
+      return `https://img.youtube.com/vi/${id}/hqdefault.jpg`;
+    }
+
+    const folderGrid = document.getElementById('folderGrid');
+    const videoGrid = document.getElementById('videoGrid');
+    const backBtn = document.getElementById('backToFolders');
+    const pageTitle = document.getElementById('pageTitle');
+
+    // Populate folder preview images from first video in collection (if available)
+    function populateFolderPreviews() {
+      if (!folderGrid) return;
+      folderGrid.querySelectorAll('.photo-item').forEach(item => {
+        const wrapper = item.querySelector('.folder-wrapper');
+        const key = wrapper && wrapper.getAttribute('data-folder');
+        const img = wrapper && wrapper.querySelector('img');
+        const caption = item.querySelector('.project-title');
+        const col = collections[key];
+        if (!col) {
+          // If the collection does not exist in `videos.json`, hide the folder tile.
+          item.classList.add('hidden');
+          return;
+        }
+
+        // ensure tile is visible when collection exists
+        item.classList.remove('hidden');
+
+        if (col.videos.length > 0) {
+          const id = youtubeIdFromUrl(col.videos[0]);
+          if (id && img) img.src = ytThumbUrl(id);
+        }
+        if (caption) caption.textContent = col.label;
+      });
+    }
+
+    // Build the video grid for a given collection key
+    function populateVideoGridFor(key) {
+      if (!videoGrid) return;
+      videoGrid.innerHTML = '';
+      const col = collections[key] || { label: key || '', videos: [] };
+      const ids = Array.isArray(col.videos) ? col.videos : [];
+      if (ids.length === 0) {
+        // fallback: show a message
+        videoGrid.innerHTML = `<p style="color:#ccc">V této galerii nejsou zatím žádná videa.</p>`;
+        return;
+      }
+
+      ids.forEach(idOrUrl => {
+        const id = youtubeIdFromUrl(idOrUrl);
+        const embed = id ? `https://www.youtube.com/embed/${id}` : idOrUrl;
+
+        const item = document.createElement('div');
+        item.className = 'video-item';
+
+        const wrapper = document.createElement('div');
+        wrapper.className = 'video-wrapper';
+        wrapper.setAttribute('data-video', embed + '?autoplay=1');
+
+        const iframe = document.createElement('iframe');
+        iframe.src = embed;
+        iframe.setAttribute('allowfullscreen', '');
+        wrapper.appendChild(iframe);
+
+        const caption = document.createElement('p');
+        caption.className = 'project-title';
+        caption.textContent = '';
+
+        item.appendChild(wrapper);
+        item.appendChild(caption);
+        videoGrid.appendChild(item);
+      });
+
+      // Re-bind click handlers for newly created wrappers
+      videoGrid.querySelectorAll('.video-wrapper').forEach(wrapper => {
+        wrapper.addEventListener('click', function() {
+          const videoUrl = this.getAttribute('data-video');
+          const modal = document.getElementById('videoModal');
+          const iframe = document.getElementById('modalIframe');
+          iframe.src = videoUrl;
+          modal.classList.add('active');
+          document.body.style.overflow = 'hidden';
+        });
+      });
+    }
+
+    // Initial setup (use inline fallback first)
+    populateFolderPreviews();
+
+    // Load `videos.json` from the site root (GitHub Pages serves repo root).
+    // If available, replace the inline fallback and refresh previews.
+    fetch('/videos.json', { cache: 'no-store' })
+      .then(resp => {
+        if (!resp.ok) throw new Error('videos.json not found');
+        return resp.json();
+      })
+      .then(data => {
+        if (data && typeof data === 'object') {
+          rawCollections = data;
+          collections = normalizeCollections(rawCollections);
+          populateFolderPreviews();
+        }
+      })
+      .catch(err => {
+        console.warn('Could not load videos.json; using inline fallback', err);
+      });
+
+    // Folder click behavior (now populates grid per-folder)
+    if (folderGrid && videoGrid && backBtn) {
+      folderGrid.querySelectorAll('.folder-wrapper').forEach(folder => {
+        folder.addEventListener('click', function() {
+          const folderKey = this.getAttribute('data-folder');
+          const col = collections[folderKey] || { label: folderKey || 'Videa', videos: [] };
+          pageTitle.textContent = col.label || 'Videa';
+          folderGrid.classList.add('hidden');
+          videoGrid.classList.remove('hidden');
+          backBtn.classList.remove('hidden');
+          populateVideoGridFor(folderKey);
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+      });
+
+      backBtn.addEventListener('click', () => {
+        pageTitle.textContent = 'Videa';
+        videoGrid.classList.add('hidden');
+        folderGrid.classList.remove('hidden');
+        backBtn.classList.add('hidden');
+        videoGrid.innerHTML = '';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+      
+      // make the page title behave like the back button when a collection is open
+      pageTitle.addEventListener('click', () => {
+        if (!backBtn.classList.contains('hidden')) backBtn.click();
+      });
+
+      pageTitle.addEventListener('keydown', (e) => {
+        if ((e.key === 'Enter' || e.key === ' ') && !backBtn.classList.contains('hidden')) {
+          e.preventDefault();
+          backBtn.click();
+        }
+      });
+    }
+
     // Open video modal on video click
     document.querySelectorAll('.video-wrapper').forEach(wrapper => {
       wrapper.addEventListener('click', function() {
