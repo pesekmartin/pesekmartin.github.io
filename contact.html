@@ -68,6 +68,7 @@
 
     header h1 a:hover {
       color: #ccc;
+      text-decoration: underline;
     }
 
     .contact-content {
@@ -227,11 +228,11 @@
       .container, header, footer {
         max-width: 100%;
         width: 100%;
-        padding: 15px 8px;
+        padding: 15px 16px;
       }
-      
+
       header {
-        padding: 15px 8px;
+        padding: 15px 16px;
       }
       
       header h1 {
@@ -328,6 +329,52 @@
       .contact-info p {
         padding: 20px;
       }
+    }
+
+    /* Vertically center contact column on larger screens */
+    @media (min-width: 900px) {
+      .contact-content {
+        /* Make the grid fill most of the viewport so centering feels meaningful */
+        min-height: calc(100vh - 220px);
+      }
+
+      .contact-info {
+        align-self: center;
+      }
+    }
+    
+    /* Large screens: give more breathing room */
+    @media (min-width: 1200px) {
+      .container {
+        max-width: 1400px;
+        padding-left: 32px;
+        padding-right: 32px;
+      }
+
+      .contact-content {
+        gap: 60px;
+      }
+
+      /* Fix the nav to the top-left corner of the viewport on large screens */
+      nav {
+        position: fixed;
+        left: 24px;
+        top: 20px;
+        z-index: 2000;
+      }
+    }
+
+    /* Common modal close button (safe to include even if page has no modal) */
+    .close-modal {
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      color: #fff;
+      font-size: 2rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      z-index: 10;
     }
   </style>
 </head>

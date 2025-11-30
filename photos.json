@@ -1,0 +1,92 @@
+{
+  "foto1": {
+    "title": "Festival světla",
+    "photos": [
+      { "src": "images/BLIKBLIK/BLIKBLIK1.jpg", "caption": "Flux" },
+      { "src": "images/BLIKBLIK/BLIKBLIK2.jpg", "caption": "Hejno" },
+      { "src": "images/BLIKBLIK/BLIKBLIK3.jpg", "caption": "Heart Beat" },
+      { "src": "images/BLIKBLIK/BLIKBLIK4.jpg", "caption": "Škola videomappingu" },
+      { "src": "images/BLIKBLIK/BLIKBLIK5.jpg", "caption": "Okno do školy" },
+      { "src": "images/BLIKBLIK/BLIKBLIK6.jpg", "caption": "Fragmenty" },
+      { "src": "images/BLIKBLIK/BLIKBLIK7.jpg", "caption": "Pátý element" },
+      { "src": "images/BLIKBLIK/BLIKBLIK8.jpg", "caption": "Mega Viki" },
+      { "src": "images/BLIKBLIK/BLIKBLIK9.jpg", "caption": "Light Party" },
+      { "src": "images/BLIKBLIK/BLIKBLIK10.jpg", "caption": "Prorůstání" },
+      { "src": "images/BLIKBLIK/BLIKBLIK11.jpg", "caption": "Secret Garden" },
+      { "src": "images/BLIKBLIK/BLIKBLIK12.jpg", "caption": "Mysterium" },
+      { "src": "images/BLIKBLIK/BLIKBLIK13.jpg", "caption": "Enérgeia" },
+      { "src": "images/BLIKBLIK/BLIKBLIK14.jpg", "caption": "Nexus Dream" },
+      { "src": "images/BLIKBLIK/BLIKBLIK15.jpg", "caption": "Synthetic Dance" },
+      { "src": "images/BLIKBLIK/BLIKBLIK16.jpg", "caption": "Koncepty nulové gravitace" },
+      { "src": "images/BLIKBLIK/BLIKBLIK17.jpg", "caption": "Kaleidoskop" },
+      { "src": "images/BLIKBLIK/BLIKBLIK18.jpg", "caption": "Pavučina" },
+      { "src": "images/foto1.jpg", "caption": "BLIK x BLIK 2025" }
+    ]
+  },
+  "foto2": {
+    "title": "Produktová fotografie",
+    "photos": [
+      { "src": "images/foto2.jpg", "caption": "LEGO Ferrari Daytona SP3" },
+      { "src": "images/Ferrari/ferrari1.jpg", "caption": "LEGO Ferrari Daytona SP3" },
+      { "src": "images/Ferrari/ferrari2.jpg", "caption": "LEGO Ferrari Daytona SP3" },
+      { "src": "images/Ferrari/ferrari3.jpg", "caption": "LEGO Ferrari Daytona SP3" },
+      { "src": "images/Ferrari/ferrari4.jpg", "caption": "LEGO Ferrari Daytona SP3" },
+      { "src": "images/Ferrari/ferrari5.jpg", "caption": "LEGO Ferrari Daytona SP3" }
+    ]
+  },
+  "foto3": {
+    "title": "U20 Sparta x Pardubice",
+    "photos": [
+      { "src": "images/foto3.jpg", "caption": "U20 Sparta x Pardubice" },
+      { "src": "images/Hokej/hokej1.jpg", "caption": "U20 Sparta x Pardubice" },
+      { "src": "images/Hokej/hokej2.jpg", "caption": "U20 Sparta x Pardubice" },
+      { "src": "images/Hokej/hokej3.jpg", "caption": "U20 Sparta x Pardubice" },
+      { "src": "images/Hokej/hokej4.jpg", "caption": "U20 Sparta x Pardubice" },
+      { "src": "images/Hokej/hoke5.jpg", "caption": "U20 Sparta x Pardubice" },
+      { "src": "images/Hokej/hokej6.jpg", "caption": "U20 Sparta x Pardubice" },
+      { "src": "images/Hokej/hokej7.jpg", "caption": "U20 Sparta x Pardubice" },
+      { "src": "images/Hokej/hokej8.jpg", "caption": "U20 Sparta x Pardubice" },
+      { "src": "images/Hokej/hokej9.jpg", "caption": "U20 Sparta x Pardubice" },
+      { "src": "images/Hokej/hokej10.jpg", "caption": "U20 Sparta x Pardubice" },
+      { "src": "images/Hokej/hokej11.jpg", "caption": "U20 Sparta x Pardubice" },
+      { "src": "images/Hokej/hokej12.jpg", "caption": "U20 Sparta x Pardubice" },
+      { "src": "images/Hokej/hokej13.jpg", "caption": "U20 Sparta x Pardubice" },
+      { "src": "images/Hokej/hokej14.jpg", "caption": "U20 Sparta x Pardubice" }
+    ]
+  },
+  "foto4": {
+    "title": "Architektura",
+    "photos": [
+      { "src": "images/foto4.jpg", "caption": "Karlštejn" },
+      { "src": "images/architektura/architektura1.jpg", "caption": "Kostel sv. Mikuláše" },
+      { "src": "images/architektura/architektura2.jpg", "caption": "Věž" },
+      { "src": "images/architektura/architektura3.jpg", "caption": "Žižkovský vysílač" },
+      { "src": "images/architektura/architektura4.jpg", "caption": "Schönbrunn" },
+      { "src": "images/architektura/architektura5.jpg", "caption": "Dům u nádraží" }
+    ]
+  },
+  "foto5": {
+    "title": "Krajina",
+    "photos": [
+      { "src": "images/foto5.jpg", "caption": "Hanger a Seekarkopf" },
+      { "src": "images/krajina/krajina1.jpg", "caption": "Zwölfer" },
+      { "src": "images/krajina/krajina2.jpg", "caption": "Západ slunce z hor" },
+      { "src": "images/krajina/krajina3.jpg", "caption": "Lobezský park" },
+      { "src": "images/krajina/krajina5.jpg", "caption": "Krkonošsko" },
+      { "src": "images/krajina/krajina6.jpg", "caption": "Krkonošsko" }
+    ]
+  },
+  "foto6": {
+    "title": "Volná tvorba",
+    "photos": [
+      { "src": "images/foto6.jpg", "caption": "Tramvaj" },
+      { "src": "images/volnatvorba/volnatvorba1.jpg", "caption": "Hlavní nádraží" },
+      { "src": "images/volnatvorba/volnatvorba2.jpg", "caption": "Maják" },
+      { "src": "images/volnatvorba/volnatvorba4.jpg", "caption": "Krimmler Wasserfälle" },
+      { "src": "images/volnatvorba/volnatvorba5.jpg", "caption": "Pražské květiny" },
+      { "src": "images/volnatvorba/volnatvorba6.jpg", "caption": "Střížkov" },
+      { "src": "images/volnatvorba/volnatvorba7.jpg", "caption": "Rolnické náměstí" },
+      { "src": "images/volnatvorba/volnatvorba8.jpg", "caption": "DaVinci Resolve" }
+    ]
+  }
+}

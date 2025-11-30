@@ -77,6 +77,7 @@
 
     header h1 a:hover {
       color: #ccc;
+      text-decoration: underline;
     }
 
     .photo-grid {
@@ -102,6 +103,43 @@
       border-radius: 15px;
       will-change: transform;
       transform: translateZ(0);
+    }
+
+    /* overlay title inside photo tile (like video.html) */
+    .photo-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,0.35);
+      transition: background 0.3s ease;
+      z-index: 2;
+      pointer-events: none;
+      /* keep the overlay title away from the very edge */
+      padding: 14px;
+      box-sizing: border-box;
+    }
+
+    .photo-wrapper:hover .photo-overlay {
+      background: rgba(0,0,0,0.15);
+    }
+
+    .photo-overlay h3 {
+      margin: 0;
+      color: #fff;
+      font-size: 1.6rem;
+      text-shadow: 2px 2px 6px rgba(0,0,0,0.8);
+      letter-spacing: 1px;
+      z-index: 3;
+      pointer-events: none;
+      /* avoid touching the photo edges when the title wraps */
+      text-align: center;
+      max-width: calc(100% - 32px);
+      word-break: break-word;
     }
 
     .photo-wrapper:hover {
@@ -149,6 +187,12 @@
       justify-content: center;
       aspect-ratio: auto;
       padding: 20px;
+    }
+
+    /* inner wrapper so the close button can sit outside the media */
+    .modal-inner {
+      position: relative;
+      display: inline-block;
     }
 
     .main-photo-container {
@@ -268,14 +312,22 @@
     
     .close-modal {
       position: absolute;
-      top: 10px;
-      right: 20px;
       color: #fff;
       font-size: 2rem;
       background: none;
       border: none;
       cursor: pointer;
-      z-index: 10;
+      z-index: 1100;
+      padding: 6px 10px;
+      border-radius: 6px;
+      line-height: 1;
+      backdrop-filter: blur(4px);
+    }
+
+    /* Consistent placement: top-right of the modal viewport */
+    .modal > .close-modal {
+      top: 20px;
+      right: 24px;
     }
 
     footer {
@@ -326,6 +378,19 @@
       .photo-modal-content {
         padding: 15px;
       }
+
+      /* On narrower viewports there's less space to place the button outside
+         the media — move it back inside the modal content area. */
+      .modal-inner .close-modal {
+        right: 10px;
+        top: 5px;
+      }
+
+      /* mobile: slightly inward so it doesn't go off-screen (moved +5px) */
+      .modal > .close-modal {
+        right: 15px;
+        top: 13px;
+      }
       
       .photo-nav-arrow.prev {
         left: 20px;
@@ -340,7 +405,7 @@
       .container, header, footer {
         max-width: 100%;
         width: 100%;
-        padding: 15px 8px;
+        padding: 15px 16px;
       }
       
       header {
@@ -384,11 +449,11 @@
       }
       
       .photo-nav-arrow.prev {
-        left: 10px;
+        left: 15px;
       }
       
       .photo-nav-arrow.next {
-        right: 10px;
+        right: 15px;
       }
       
       .photo-thumbnails {
@@ -456,6 +521,32 @@
       }
     }
 
+    /* Large screens: expand grid and container so tiles are larger */
+    @media (min-width: 1200px) {
+      .container {
+        max-width: 1400px;
+        padding-left: 32px;
+        padding-right: 32px;
+      }
+
+      .photo-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 40px;
+      }
+
+      .photo-wrapper {
+        border-radius: 18px;
+      }
+
+      /* Fix the nav to the top-left corner of the viewport on large screens */
+      nav {
+        position: fixed;
+        left: 24px;
+        top: 20px;
+        z-index: 2000;
+      }
+    }
+
     /* Touch device improvements */
     @media (hover: none) and (pointer: coarse) {
       .photo-wrapper:hover {
@@ -491,66 +582,33 @@
 
   <div class="container">
     <h2>Fotografie</h2>
-    <div class="photo-grid">
-      <div class="photo-item">
-        <div class="photo-wrapper" data-photo="images/foto1.jpg">
-          <img src="images/foto1.jpg" alt="Fotografie 1" loading="lazy">
-        </div>
-        <p class="project-title">Festival světla</p>
-      </div>
-      <div class="photo-item">
-        <div class="photo-wrapper" data-photo="images/foto2.jpg">
-          <img src="images/foto2.jpg" alt="Fotografie 2" loading="lazy">
-        </div>
-        <p class="project-title">Produktová fotografie</p>
-      </div>
-      <div class="photo-item">
-        <div class="photo-wrapper" data-photo="images/foto3.jpg">
-          <img src="images/foto3.jpg" alt="Fotografie 3" loading="lazy">
-        </div>
-        <p class="project-title">U20 Sparta x Pardubice</p>
-      </div>
-      <div class="photo-item">
-        <div class="photo-wrapper" data-photo="images/foto4.jpg">
-          <img src="images/foto4.jpg" alt="Fotografie 4" loading="lazy">
-        </div>
-        <p class="project-title">Architektura</p>
-      </div>
-      <div class="photo-item">
-        <div class="photo-wrapper" data-photo="images/foto5.jpg">
-          <img src="images/foto5.jpg" alt="Fotografie 5" loading="lazy">
-        </div>
-        <p class="project-title">Krajina</p>
-      </div>
-      <div class="photo-item">
-        <div class="photo-wrapper" data-photo="images/foto6.jpg">
-          <img src="images/foto6.jpg" alt="Fotografie 6" loading="lazy">
-        </div>
-        <p class="project-title">Volná tvorba</p>
-      </div>
+    <div class="photo-grid" id="photoGrid">
+      <!-- main grid is rendered dynamically from `photoCollections` or /photos.json -->
     </div>
   </div>
 
   <!-- Modal for expanded photo -->
   <div class="modal" id="photoModal">
-    <div class="photo-modal-content">
-      <button class="close-modal" id="closePhotoModal" aria-label="Zavřít">&times;</button>
-      
-      <div class="main-photo-container">
-        <button class="photo-nav-arrow prev" id="prevArrow">‹</button>
-        <img id="mainPhoto" src="" alt="">
-        <button class="photo-nav-arrow next" id="nextArrow">›</button>
-      </div>
-      
-      <div class="photo-info">
-        <p id="photoCaption">Fotografie</p>
-        <p id="photoCounter">1 / 6</p>
-      </div>
-      
-      <div class="photo-thumbnails" id="photoThumbnails">
-        <!-- Thumbnails will be loaded here -->
+    <div class="modal-inner">
+      <div class="photo-modal-content">
+        <div class="main-photo-container">
+          <button class="photo-nav-arrow prev" id="prevArrow">‹</button>
+          <img id="mainPhoto" src="" alt="">
+          <button class="photo-nav-arrow next" id="nextArrow">›</button>
+        </div>
+
+        <div class="photo-info">
+          <p id="photoCaption">Fotografie</p>
+          <p id="photoCounter">1 / 6</p>
+        </div>
+
+        <div class="photo-thumbnails" id="photoThumbnails">
+          <!-- Thumbnails will be loaded here -->
+        </div>
       </div>
     </div>
+    <button class="close-modal" id="closePhotoModal" aria-label="Zavřít">&times;</button>
+  </div>
   </div>
 
   <footer>
@@ -585,7 +643,7 @@
         ]
       },
       'foto2': {
-        title: 'Ferrari',
+        title: 'Produktová fotografie',
         photos: [
           { src: "images/foto2.jpg", caption: "LEGO Ferrari Daytona SP3" },
           { src: "images/Ferrari/ferrari1.jpg", caption: "LEGO Ferrari Daytona SP3" },
@@ -690,26 +748,98 @@
       });
     }
 
-    // Open photo modal on photo click
-    document.querySelectorAll('.photo-wrapper').forEach((wrapper, index) => {
-      wrapper.addEventListener('click', function() {
-        const photoSrc = this.getAttribute('data-photo');
-        
-        // Určit jakou kolekci otevřít na základě názvu souboru
-        let collectionKey = '';
-        if (photoSrc.includes('foto1.jpg')) collectionKey = 'foto1';
-        else if (photoSrc.includes('foto2.jpg')) collectionKey = 'foto2';
-        else if (photoSrc.includes('foto3.jpg')) collectionKey = 'foto3';
-        else if (photoSrc.includes('foto4.jpg')) collectionKey = 'foto4';
-        else if (photoSrc.includes('foto5.jpg')) collectionKey = 'foto5';
-        else if (photoSrc.includes('foto6.jpg')) collectionKey = 'foto6';
-        
+    // Render main grid dynamically from photoCollections
+    function renderPhotoGrid(order) {
+      const grid = document.getElementById('photoGrid');
+      grid.innerHTML = '';
+      const keys = Array.isArray(order) && order.length ? order : Object.keys(photoCollections);
+      // ensure stable ordering if possible
+      const defaultOrder = ['foto1','foto2','foto3','foto4','foto5','foto6'];
+      const finalKeys = keys.length ? keys : defaultOrder.filter(k => photoCollections[k]);
+
+      finalKeys.forEach(key => {
+        const col = photoCollections[key];
+        if (!col) return;
+        const first = Array.isArray(col.photos) && col.photos.length ? col.photos[0].src : '';
+
+        const item = document.createElement('div');
+        item.className = 'photo-item';
+
+        const wrapper = document.createElement('div');
+        wrapper.className = 'photo-wrapper';
+        wrapper.setAttribute('data-photo', first);
+        wrapper.setAttribute('data-collection', key);
+
+        const img = document.createElement('img');
+        img.src = first;
+        img.alt = col.title || '';
+        img.loading = 'lazy';
+
+        const overlay = document.createElement('div');
+        overlay.className = 'photo-overlay';
+        const h3 = document.createElement('h3');
+        h3.textContent = col.title || '';
+        overlay.appendChild(h3);
+
+        wrapper.appendChild(img);
+        wrapper.appendChild(overlay);
+        item.appendChild(wrapper);
+        grid.appendChild(item);
+
+        wrapper.addEventListener('click', function() {
+          const collectionKey = this.getAttribute('data-collection');
+          if (collectionKey && photoCollections[collectionKey]) {
+            currentCollection = photoCollections[collectionKey].photos;
+            openPhotoModal(0);
+          }
+        });
+      });
+    }
+
+    // initial render from inline data (may be replaced by /photos.json later)
+    renderPhotoGrid(['foto1','foto2','foto3','foto4','foto5','foto6']);
+
+    // Populate overlay titles on photo tiles from `photoCollections`
+    function populatePhotoPreviews() {
+      document.querySelectorAll('.photo-wrapper').forEach(wrapper => {
+        // Prefer explicit data-collection set when rendering grid dynamically
+        const collectionKey = wrapper.getAttribute('data-collection') || '';
+        const overlayH3 = wrapper.querySelector('.photo-overlay h3');
         if (collectionKey && photoCollections[collectionKey]) {
-          currentCollection = photoCollections[collectionKey].photos;
-          openPhotoModal(0);
+          overlayH3.textContent = photoCollections[collectionKey].title || '';
+        } else if (overlayH3) {
+          // fallback: try to leave existing text (do not overwrite with empty)
+          // If no collectionKey, keep current overlay text.
         }
       });
-    });
+    }
+
+    // call populate after defining photoCollections
+    populatePhotoPreviews();
+
+    // Load `photos.json` from the site root and replace the inline `photoCollections` if available.
+    // This makes it easy to edit titles/captions without touching the HTML.
+    (function() {
+      fetch('/photos.json', { cache: 'no-store' })
+        .then(resp => {
+          if (!resp.ok) throw new Error('photos.json not found');
+          return resp.json();
+        })
+        .then(data => {
+          if (data && typeof data === 'object') {
+            // replace inline photoCollections with fetched data and refresh grid
+            for (const k of Object.keys(data)) {
+              photoCollections[k] = data[k];
+            }
+            // re-render grid and any previews
+            renderPhotoGrid(['foto1','foto2','foto3','foto4','foto5','foto6']);
+            populatePhotoPreviews();
+          }
+        })
+        .catch(err => {
+          console.warn('Could not load photos.json; using inline data', err);
+        });
+    })();
 
     function openPhotoModal(startIndex) {
       currentPhotoIndex = startIndex;

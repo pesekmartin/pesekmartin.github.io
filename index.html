@@ -78,6 +78,7 @@
 
     header h1 a:hover {
       color: #ccc;
+      text-decoration: underline;
     }
 
     /* Section preview styles */
@@ -557,7 +558,7 @@
       .container, header, footer {
         max-width: 100%;
         width: 100%;
-        padding: 15px 8px;
+        padding: 15px 16px;
       }
       
       header {
@@ -625,11 +626,11 @@
       }
       
       .photo-nav-arrow.prev {
-        left: 10px;
+        left: 15px;
       }
       
       .photo-nav-arrow.next {
-        right: 10px;
+        right: 15px;
       }
       
       .photo-thumbnails {
@@ -642,8 +643,8 @@
       }
       
       .close-modal {
-        top: 5px;
-        right: 10px;
+        top: 10px;
+        right: 15px;
         font-size: 1.5rem;
       }
       
@@ -717,6 +718,42 @@
       
       .video-grid, .photo-grid {
         grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    /* Large screens: give more breathing room and larger previews */
+    @media (min-width: 1200px) {
+      .container {
+        max-width: 1400px;
+        padding-left: 32px;
+        padding-right: 32px;
+      }
+
+      .section-previews {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 60px;
+      }
+
+      .section-preview {
+        height: 320px;
+        border-radius: 18px;
+      }
+
+      .video-grid, .photo-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 40px;
+      }
+
+      .project-title {
+        font-size: 1.05rem;
+      }
+
+      /* Fix the nav to the top-left corner of the viewport on large screens */
+      nav {
+        position: fixed;
+        left: 24px;
+        top: 20px;
+        z-index: 2000;
       }
     }
 

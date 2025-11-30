@@ -70,6 +70,7 @@
 
     header h1 a:hover {
       color: #ccc;
+      text-decoration: underline;
     }
 
     .video-grid {
@@ -116,6 +117,36 @@
       transform: translateZ(0);
       /* ensure any background color doesn't show through */
       background-color: transparent;
+    }
+
+    /* overlay title inside folder tile (like index.html) */
+    .folder-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,0.35);
+      transition: background 0.3s ease;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .folder-wrapper:hover .folder-overlay {
+      background: rgba(0,0,0,0.15);
+    }
+
+    .folder-overlay h3 {
+      margin: 0;
+      color: #fff;
+      font-size: 1.4rem;
+      text-shadow: 2px 2px 6px rgba(0,0,0,0.8);
+      letter-spacing: 1px;
+      z-index: 3;
+      pointer-events: none;
     }
 
     .folder-wrapper:hover {
@@ -220,17 +251,30 @@
       border: none;
       pointer-events: auto;
     }
+    /* inner wrapper so the close button can sit outside the media */
+    .modal-inner {
+      position: relative;
+      display: inline-block;
+    }
     
     .close-modal {
       position: absolute;
-      top: 10px;
-      right: 20px;
       color: #fff;
       font-size: 2rem;
       background: none;
       border: none;
       cursor: pointer;
-      z-index: 10;
+      z-index: 1100;
+      padding: 6px 10px;
+      border-radius: 6px;
+      line-height: 1;
+      backdrop-filter: blur(4px);
+    }
+
+    /* Consistent placement: top-right of the modal viewport */
+    .modal > .close-modal {
+      top: 20px;
+      right: 24px;
     }
 
     footer {
@@ -289,7 +333,7 @@
       .container, header, footer {
         max-width: 100%;
         width: 100%;
-        padding: 15px 8px;
+        padding: 15px 16px;
       }
       
       header {
@@ -323,8 +367,8 @@
       }
       
       .close-modal {
-        top: 5px;
-        right: 10px;
+        top: 10px;
+        right: 15px;
         font-size: 1.5rem;
       }
       
@@ -357,6 +401,32 @@
     @media (max-width: 1024px) and (orientation: landscape) {
       .video-grid, .folder-grid {
         grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    /* Large screens: expand container and show more tiles */
+    @media (min-width: 1200px) {
+      .container {
+        max-width: 1400px;
+        padding-left: 32px;
+        padding-right: 32px;
+      }
+
+      .folder-grid, .video-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 40px;
+      }
+
+      .folder-wrapper, .video-wrapper {
+        border-radius: 18px;
+      }
+
+      /* Fix the nav to the top-left corner of the viewport on large screens */
+      nav {
+        position: fixed;
+        left: 24px;
+        top: 20px;
+        z-index: 2000;
       }
     }
 
@@ -394,38 +464,38 @@
       <div class="photo-item">
         <div class="folder-wrapper" data-folder="BLIKBLIK">
           <img src="images/BLIKBLIK/BLIKBLIK1.jpg" alt="BLIKBLIK" loading="lazy">
+          <div class="folder-overlay"><h3>BLIKBLIK</h3></div>
         </div>
-        <p class="project-title">Záznam akcí</p>
       </div>
       <div class="photo-item">
         <div class="folder-wrapper" data-folder="Ferrari">
           <img src="images/Ferrari/ferrari1.jpg" alt="Ferrari" loading="lazy">
+          <div class="folder-overlay"><h3>Ferrari</h3></div>
         </div>
-        <p class="project-title">Ferrari</p>
       </div>
       <div class="photo-item">
         <div class="folder-wrapper" data-folder="Hokej">
           <img src="images/Hokej/hokej1.jpg" alt="Hokej" loading="lazy">
+          <div class="folder-overlay"><h3>Hokej</h3></div>
         </div>
-        <p class="project-title">Hokej</p>
       </div>
       <div class="photo-item">
         <div class="folder-wrapper" data-folder="Architektura">
           <img src="images/architektura/architektura1.jpg" alt="Architektura" loading="lazy">
+          <div class="folder-overlay"><h3>Architektura</h3></div>
         </div>
-        <p class="project-title">Architektura</p>
       </div>
       <div class="photo-item">
         <div class="folder-wrapper" data-folder="Krajina">
           <img src="images/krajina/krajina1.jpg" alt="Krajina" loading="lazy">
+          <div class="folder-overlay"><h3>Krajina</h3></div>
         </div>
-        <p class="project-title">Krajina</p>
       </div>
       <div class="photo-item">
         <div class="folder-wrapper" data-folder="VolnaTvorba">
           <img src="images/volnatvorba/volnatvorba1.jpg" alt="Volná tvorba" loading="lazy">
+          <div class="folder-overlay"><h3>Volná tvorba</h3></div>
         </div>
-        <p class="project-title">Volná tvorba</p>
       </div>
     </div>
 
@@ -466,10 +536,12 @@
 
   <!-- Modal for expanded video -->
   <div class="modal" id="videoModal">
-    <div class="modal-content">
-      <button class="close-modal" id="closeModal" aria-label="Zavřít">&times;</button>
-      <iframe id="modalIframe" src="" allowfullscreen></iframe>
+    <div class="modal-inner">
+      <div class="modal-content">
+        <iframe id="modalIframe" src="" allowfullscreen></iframe>
+      </div>
     </div>
+    <button class="close-modal" id="closeModal" aria-label="Zavřít">&times;</button>
   </div>
 
   <footer>
@@ -535,7 +607,7 @@
         const wrapper = item.querySelector('.folder-wrapper');
         const key = wrapper && wrapper.getAttribute('data-folder');
         const img = wrapper && wrapper.querySelector('img');
-        const caption = item.querySelector('.project-title');
+        const overlay = wrapper && wrapper.querySelector('.folder-overlay h3');
         const col = collections[key];
         if (!col) {
           // If the collection does not exist in `videos.json`, hide the folder tile.
@@ -550,7 +622,7 @@
           const id = youtubeIdFromUrl(col.videos[0]);
           if (id && img) img.src = ytThumbUrl(id);
         }
-        if (caption) caption.textContent = col.label;
+        if (overlay) overlay.textContent = col.label;
       });
     }
 
@@ -582,12 +654,8 @@
         iframe.setAttribute('allowfullscreen', '');
         wrapper.appendChild(iframe);
 
-        const caption = document.createElement('p');
-        caption.className = 'project-title';
-        caption.textContent = '';
-
+        // Only append the video wrapper (no overlay, no caption)
         item.appendChild(wrapper);
-        item.appendChild(caption);
         videoGrid.appendChild(item);
       });
 
