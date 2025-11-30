@@ -176,12 +176,14 @@
 
     /* indicate the page title is clickable when it acts as a back control */
     #pageTitle {
-      cursor: pointer;
       display: inline-block;
     }
-    /* when the title acts as a button/link, underline on hover/focus for accessibility */
-    #pageTitle:hover,
-    #pageTitle:focus {
+    /* Only when the title is acting as a link/back control show pointer and underline */
+    #pageTitle.link-active {
+      cursor: pointer;
+    }
+    #pageTitle.link-active:hover,
+    #pageTitle.link-active:focus {
       text-decoration: underline;
       outline: none;
     }
@@ -709,6 +711,8 @@
           folderGrid.classList.add('hidden');
           videoGrid.classList.remove('hidden');
           backBtn.classList.remove('hidden');
+          // mark the title as acting like a link/back-control so hover styles apply
+          pageTitle.classList.add('link-active');
           populateVideoGridFor(folderKey);
           window.scrollTo({ top: 0, behavior: 'smooth' });
         });
@@ -719,6 +723,8 @@
         videoGrid.classList.add('hidden');
         folderGrid.classList.remove('hidden');
         backBtn.classList.add('hidden');
+        // remove the link-like state when returning to folder view
+        pageTitle.classList.remove('link-active');
         videoGrid.innerHTML = '';
         window.scrollTo({ top: 0, behavior: 'smooth' });
       });
