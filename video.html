@@ -179,6 +179,12 @@
       cursor: pointer;
       display: inline-block;
     }
+    /* when the title acts as a button/link, underline on hover/focus for accessibility */
+    #pageTitle:hover,
+    #pageTitle:focus {
+      text-decoration: underline;
+      outline: none;
+    }
 
     .video-wrapper {
       position: relative;
