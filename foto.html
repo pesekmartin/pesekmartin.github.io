@@ -811,10 +811,6 @@
     })();
 
     function openPhotoModal(startIndex) {
-      // Hide theme toggle when modal is open
-      const themeToggle = document.getElementById('theme-toggle');
-      if (themeToggle) themeToggle.style.display = 'none';
-
       currentPhotoIndex = startIndex;
       
       // Create thumbnails from current collection
@@ -847,6 +843,7 @@
       showPhoto(startIndex);
       
       document.getElementById('photoModal').classList.add('active');
+      document.body.classList.add('modal-open');
       document.body.style.overflow = 'hidden';
       
       // Preload nearby images
@@ -960,11 +957,8 @@
     function closePhotoModal() {
       const modal = document.getElementById('photoModal');
       modal.classList.remove('active');
+      document.body.classList.remove('modal-open');
       document.body.style.overflow = '';
-      
-      // Show theme toggle when modal is closed
-      const themeToggle = document.getElementById('theme-toggle');
-      if (themeToggle) themeToggle.style.display = '';
     }
   </script>
   <script src="theme.js"></script>

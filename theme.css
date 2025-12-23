@@ -119,6 +119,18 @@ header h1 a:hover {
   padding: 0;
 }
 
+@keyframes menuShake {
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(15deg); }
+  50% { transform: rotate(-15deg); }
+  75% { transform: rotate(5deg); }
+  100% { transform: rotate(0deg); }
+}
+
+.menu-toggle:hover svg {
+  animation: menuShake 0.5s ease-in-out;
+}
+
 .menu-close {
   display: none; /* Hidden on desktop */
   background: none;
@@ -252,6 +264,13 @@ body.light-mode {
 @media (max-width: 900px) {
   #theme-toggle {
     margin-left: 0;
+  }
+}
+
+/* Hide theme toggle on desktop when modal is open to avoid overlap with close button */
+@media (min-width: 901px) {
+  body.modal-open #theme-toggle {
+    display: none !important;
   }
 }
 

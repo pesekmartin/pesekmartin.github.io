@@ -205,7 +205,7 @@
       width: 100vw;
       height: 100vh;
       overflow-y: auto;
-      background: rgba(0,0,0,0.9);
+      background: var(--modal-bg);
       /* Remove centering that forces content to middle */
       /* justify-content: center; */
       /* align-items: center; */
@@ -807,14 +807,11 @@
           }
 
           modal.classList.add('active');
+          document.body.classList.add('modal-open');
           document.body.style.overflow = 'hidden';
           
           // Center the modal content
           centerModalContent();
-          
-          // Hide theme toggle when modal is open
-          const themeToggle = document.getElementById('theme-toggle');
-          if (themeToggle) themeToggle.style.display = 'none';
         });
       });
     }
@@ -913,14 +910,11 @@
 
         iframe.src = videoUrl;
         modal.classList.add('active');
+        document.body.classList.add('modal-open');
         document.body.style.overflow = 'hidden';
 
         // Center the modal content
         centerModalContent();
-
-        // Hide theme toggle when modal is open
-        const themeToggle = document.getElementById('theme-toggle');
-        if (themeToggle) themeToggle.style.display = 'none';
       });
     });
 
@@ -991,6 +985,7 @@
 
       modal.classList.remove('active');
       iframe.src = '';
+      document.body.classList.remove('modal-open');
       document.body.style.overflow = '';
       
       // Reset margin
@@ -1008,10 +1003,6 @@
           </svg>
           Info
       `;
-
-      // Show theme toggle when modal is closed
-      const themeToggle = document.getElementById('theme-toggle');
-      if (themeToggle) themeToggle.style.display = '';
     }
   </script>
   <script src="theme.js"></script>
