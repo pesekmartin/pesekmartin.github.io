@@ -46,33 +46,6 @@
       box-sizing: border-box;
     }
 
-    nav {
-      position: absolute;
-      left: 20px;
-      right: 20px;
-      top: 20px;
-      display: flex;
-      gap: 15px;
-      flex-wrap: wrap;
-      pointer-events: none;
-      align-items: center;
-    }
-
-    nav a, nav button {
-      pointer-events: auto;
-    }
-
-    nav a {
-      color: var(--nav-link-color);
-      text-decoration: none;
-      font-weight: bold;
-      font-size: 1rem;
-    }
-
-    nav a:hover {
-      text-decoration: underline;
-    }
-
     header h1 {
       text-align: center;
       font-size: 1.8rem;
@@ -530,16 +503,6 @@
         font-size: 2.5rem;
       }
       
-      /* Navigation responsive */
-      nav {
-        position: relative;
-        left: auto;
-        right: auto;
-        top: auto;
-        justify-content: center;
-        margin-bottom: 15px;
-      }
-      
       header h1 {
         font-size: 1.5rem;
       }
@@ -805,12 +768,26 @@
 </head>
 <body>
   <header>
-    <nav>
+    <button id="menuToggle" class="menu-toggle" aria-label="Menu">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="3" y1="12" x2="21" y2="12"></line>
+        <line x1="3" y1="6" x2="21" y2="6"></line>
+        <line x1="3" y1="18" x2="21" y2="18"></line>
+      </svg>
+    </button>
+    <nav id="mainNav">
+      <button id="menuClose" class="menu-close" aria-label="Zavřít menu">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
       <a href="index.html">Portfolio</a>
       <a href="contact.html">Kontakt</a>
     </nav>
     <h1><a href="index.html">Pešek</a></h1>
   </header>
+  <div id="menuOverlay" class="menu-overlay"></div>
 
   <div class="container">
     <!-- Section previews (main page) -->

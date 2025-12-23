@@ -33,4 +33,36 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     localStorage.setItem('theme', theme);
   });
+
+  // Mobile Menu Logic
+  const menuToggle = document.getElementById('menuToggle');
+  const menuClose = document.getElementById('menuClose');
+  const mainNav = document.getElementById('mainNav'); // Ensure nav has this ID
+  const menuOverlay = document.getElementById('menuOverlay');
+
+  // If elements don't exist (e.g. old HTML structure), try to find them or fail gracefully
+  // Note: HTML files need to be updated to include these IDs and elements.
+  
+  function openMenu() {
+    if (mainNav) mainNav.classList.add('active');
+    if (menuOverlay) menuOverlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeMenu() {
+    if (mainNav) mainNav.classList.remove('active');
+    if (menuOverlay) menuOverlay.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  if (menuToggle) menuToggle.addEventListener('click', openMenu);
+  if (menuClose) menuClose.addEventListener('click', closeMenu);
+  if (menuOverlay) menuOverlay.addEventListener('click', closeMenu);
+  
+  // Close menu when clicking a link inside nav
+  if (mainNav) {
+    mainNav.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', closeMenu);
+    });
+  }
 });
