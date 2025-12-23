@@ -43,15 +43,66 @@ nav a, nav button {
   pointer-events: auto;
 }
 
+/* Animated Underline Shared Styles */
+nav a,
+header h1 a,
+.info-toggle,
+.contact-info a,
+#pageTitle.link-active {
+  position: relative;
+  display: inline-block;
+  text-decoration: none;
+}
+
+nav a::after,
+header h1 a::after,
+.info-toggle::after,
+.contact-info a::after,
+#pageTitle.link-active::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -2px;
+  left: 0;
+  background-color: currentColor;
+  transition: width 0.3s ease;
+}
+
+nav a:hover,
+header h1 a:hover,
+.info-toggle:hover,
+.contact-info a:hover,
+#pageTitle.link-active:hover {
+  text-decoration: none;
+}
+
+nav a:hover::after,
+header h1 a:hover::after,
+.info-toggle:hover::after,
+.contact-info a:hover::after,
+#pageTitle.link-active:hover::after {
+  width: 100%;
+}
+
+/* Specific Styles */
 nav a {
   color: var(--nav-link-color);
-  text-decoration: none;
   font-weight: bold;
   font-size: 1rem;
 }
 
-nav a:hover {
-  text-decoration: underline;
+header h1 a {
+  color: var(--text-color);
+  transition: color 0.3s ease;
+}
+
+header h1 a:hover {
+  color: #ccc;
+}
+
+.contact-info a {
+  color: var(--text-color);
 }
 
 /* Menu Toggle (Hamburger) - Hidden on Desktop */
