@@ -2,42 +2,156 @@
   "BLIKBLIK": {
     "label": "Záznamy z Akcí",
     "videos": [
-      "jPdJ4hhsbLk",
-      "rwPX3azojHw"
+      {
+        "id": "jPdJ4hhsbLk",
+        "title": "Rybova mše vánoční",
+        "credits": {
+          "Kamera": "Martin Pešek, Ondřej Kodym, Filip Železný, Matyáš Ginzel, Gray James Edward, Didov Stefan",
+          "Střih": "Martin Pešek",
+          "Speciální poděkování": "Ing. Jiří Janecký, Ing. Martin Novotný, Ing. Jan Vimr"
+        }
+      },
+      {
+        "id": "rwPX3azojHw",
+        "title": "Maturitní ples SPŠST Panská",
+        "credits": {
+          "Produkce": "David Kučera, Tobiáš Kubišta",
+          "Střih": "Martin Pešek",
+          "Kamera": "David Kučera, Karolína Wróblewská, Jiří Pilař, Vojtěch kovalský, Matouš Pajk, Vít Matoušek, Martin Pešek, Matěj Machek",
+          "Speciální poděkování": "Ing. Jiří Janecký, Ing. Martin Novotný"
+        }
+      }
     ]
   },
   "Ferrari": {
     "label": "Krátké filmy",
     "videos": [
-      "vZSJj9pkaps",
-      "3Y244OJJ4UQ",
-      "tA7nG6Xgm3Q"
+      {
+        "id": "vZSJj9pkaps",
+        "title": "INTR LIFE",
+        "credits": {
+          "Hrají": "Martin Pešek, Matouš Pajk",
+          "Scénář a režie": "Martin Pešek",
+          "Kamera": "Martin Pešek, Matouš Pajk",
+          "Střih": "Martin Pešek"
+        }
+      },
+      {
+        "id": "3Y244OJJ4UQ",
+        "title": "Krátký film",
+        "credits": {
+          "Hraje": "Ondřej Kodym",
+          "Kamera": "Anna Kékesi",
+          "Zvuk": "Martin Pešek",
+          "Střih": "Martin Pešek"
+        }
+      },
+      {
+        "id": "tA7nG6Xgm3Q",
+        "title": "ČAS",
+        "credits": {
+          "Hrají": "Jakub Horner, Hynek Drtina, Matouš Pajk, Maryáš Miškuf",
+          "Produkce": "Hynek Drtina",
+          "Námět, scénář a režie": "Hynek Drtina",
+          "Kamera": "Martin Pešek, Matouš Pajk",
+          "Zvuk": "Markéta Smetanová, Matouš Pajk",
+          "Střih": "Martin Pešek",
+          "Catering": "Josef Štorc"
+        }
+      }
     ]
   },
   "Hokej": {
     "label": "Maraton ZUŠ",
     "videos": [
-      "Ke9zyYUJVYE",
-      "6qKF2TxpuJY",
-      "tMFJH3T1M9I",
-      "lr8OhVB40gI",
-      "m-PWikRnUu0",
-      "-_lXiYbmxiU"
+      {
+        "id": "Ke9zyYUJVYE",
+        "title": "Maraton ZUŠ",
+        "credits": {
+          "Kamera": "Martin Pešek, Ondřej Kodym, Šťepán Macoun, Ondřej Reinsch, Ing. Jiří Janecký, Ing. Martin Novotný",
+          "Střih": "Martin Pešek"
+        }
+      },
+      {
+        "id": "6qKF2TxpuJY",
+        "title": "Maraton ZUŠ",
+        "credits": {
+           "Kamera": "Martin Pešek, Ondřej Kodym, Šťepán Macoun, Ondřej Reinsch, Ing. Jiří Janecký, Ing. Martin Novotný",
+          "Střih": "Martin Pešek"
+        }
+      },
+      {
+        "id": "tMFJH3T1M9I",
+        "title": "Maraton ZUŠ",
+        "credits": {
+           "Kamera": "Martin Pešek, Ondřej Kodym, Šťepán Macoun, Ondřej Reinsch, Ing. Jiří Janecký, Ing. Martin Novotný",
+          "Střih": "Martin Pešek"
+        }
+      },
+      {
+        "id": "lr8OhVB40gI",
+        "title": "Maraton ZUŠ",
+        "credits": {
+           "Kamera": "Martin Pešek, Ondřej Kodym, Šťepán Macoun, Ondřej Reinsch, Ing. Jiří Janecký, Ing. Martin Novotný",
+          "Střih": "Martin Pešek"
+        }
+      },
+      {
+        "id": "m-PWikRnUu0",
+        "title": "Maraton ZUŠ",
+        "credits": {
+           "Kamera": "Martin Pešek, Ondřej Kodym, Šťepán Macoun, Ondřej Reinsch, Ing. Jiří Janecký, Ing. Martin Novotný",
+          "Střih": "Martin Pešek"
+        }
+      },
+      {
+        "id": "-_lXiYbmxiU",
+        "title": "Maraton ZUŠ",
+        "credits": {
+           "Kamera": "Martin Pešek, Ondřej Kodym, Šťepán Macoun, Ondřej Reinsch, Ing. Jiří Janecký, Ing. Martin Novotný",
+          "Střih": "Martin Pešek"
+        }
+      }
     ]
   },
   "Architektura": {
     "label": "Reels",
     "videos": [
-      "_sLg4ZBDM0A",
-      "pVS_FxAV2b0",
-      "IY8fzmO8COM"
-
+      {
+        "id": "_sLg4ZBDM0A",
+        "title": "Reel 1",
+        "credits": {
+          "Kamera": "Martin Pešek",
+          "Střih": "Martin Pešek"
+        }
+      },
+      {
+        "id": "pVS_FxAV2b0",
+        "title": "Reel 2",
+        "credits": {
+          "Střih": "Martin Pešek"
+        }
+      },
+      {
+        "id": "IY8fzmO8COM",
+        "title": "Reel 3",
+        "credits": {
+         "Střih": "Martin Pešek"
+        }
+      }
     ]
   },
   "Krajina": {
     "label": "Ostatní",
     "videos": [
-      "z3anqmVt1dk"
+      {
+        "id": "z3anqmVt1dk",
+        "title": "Pozvánka na Scholu Pragensis 2024",
+        "credits": {
+          "Kamera": "Martin Pešek, Ondřej Kodym, Vojtěch Valeš",
+          "Střih": "Martin Pešek"
+        }
+      }
     ]
   }
 }

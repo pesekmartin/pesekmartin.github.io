@@ -241,13 +241,16 @@
       top: 0;
       width: 100vw;
       height: 100vh;
-      overflow: auto;
+      overflow-y: auto;
       background: rgba(0,0,0,0.9);
-      justify-content: center;
-      align-items: center;
+      /* Remove centering that forces content to middle */
+      /* justify-content: center; */
+      /* align-items: center; */
     }
     .modal.active {
       display: flex;
+      align-items: flex-start; /* Start from top to allow custom margin-top */
+      justify-content: center;
     }
     .modal-content {
       position: relative;
@@ -271,11 +274,81 @@
     /* inner wrapper so the close button can sit outside the media */
     .modal-inner {
       position: relative;
-      display: inline-block;
+      display: flex;
+      flex-direction: column;
+      width: 80vw;
+      max-width: 1000px;
+      margin: 0 auto; /* Center horizontally */
+      padding-bottom: 40px;
+      transition: margin-top 0.3s ease;
     }
     
+    .video-info {
+      margin-top: 15px;
+      color: var(--text-color);
+      text-align: left;
+      width: 100%;
+      background: var(--card-bg);
+      padding: 15px;
+      border-radius: 10px;
+      box-sizing: border-box;
+      opacity: 0;
+      transform: translateY(-10px);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      /* Start hidden but allow display:block for transition */
+      display: none; 
+    }
+    
+    .video-info.active-block {
+      display: block;
+    }
+
+    .video-info.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .info-toggle {
+      background: transparent;
+      border: none;
+      color: var(--nav-link-color);
+      padding: 0;
+      cursor: pointer;
+      margin-top: 15px;
+      align-self: flex-start;
+      font-family: inherit;
+      font-size: 1rem;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+
+    .info-toggle:hover {
+      text-decoration: underline;
+      background: transparent;
+    }
+
+    .info-toggle.hidden {
+      display: none !important;
+    }
+
+    .video-info h3 {
+      margin: 0 0 10px 0;
+      font-size: 1.4rem;
+    }
+
+    .video-info p {
+      margin: 5px 0;
+      font-size: 1rem;
+      color: var(--info-text-color);
+    }
+
     .close-modal {
-      position: absolute;
+      position: fixed;
+      top: 20px;
+      right: 24px;
       color: var(--text-color);
       font-size: 2rem;
       background: none;
@@ -289,10 +362,10 @@
     }
 
     /* Consistent placement: top-right of the modal viewport */
-    .modal > .close-modal {
+    /* .modal > .close-modal {
       top: 20px;
       right: 24px;
-    }
+    } */
 
     footer {
       text-align: center;
@@ -559,6 +632,18 @@
       <div class="modal-content">
         <iframe id="modalIframe" src="" allowfullscreen></iframe>
       </div>
+      <button id="toggleInfo" class="info-toggle hidden">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="16" x2="12" y2="12"></line>
+          <line x1="12" y1="8" x2="12.01" y2="8"></line>
+        </svg>
+        Info
+      </button>
+      <div id="videoInfo" class="video-info">
+        <h3 id="videoTitle"></h3>
+        <div id="videoCredits"></div>
+      </div>
     </div>
     <button class="close-modal" id="closeModal" aria-label="Zavřít">&times;</button>
   </div>
@@ -638,7 +723,9 @@
         item.classList.remove('hidden');
 
         if (col.videos.length > 0) {
-          const id = youtubeIdFromUrl(col.videos[0]);
+          const firstVideo = col.videos[0];
+          const idOrUrl = (typeof firstVideo === 'object') ? (firstVideo.id || firstVideo.url) : firstVideo;
+          const id = youtubeIdFromUrl(idOrUrl);
           if (id && img) img.src = ytThumbUrl(id);
         }
         if (overlay) overlay.textContent = col.label;
@@ -650,14 +737,22 @@
       if (!videoGrid) return;
       videoGrid.innerHTML = '';
       const col = collections[key] || { label: key || '', videos: [] };
-      const ids = Array.isArray(col.videos) ? col.videos : [];
-      if (ids.length === 0) {
+      const items = Array.isArray(col.videos) ? col.videos : [];
+      if (items.length === 0) {
         // fallback: show a message
         videoGrid.innerHTML = `<p style="color:#ccc">V této galerii nejsou zatím žádná videa.</p>`;
         return;
       }
 
-      ids.forEach(idOrUrl => {
+      items.forEach(itemData => {
+        let idOrUrl = itemData;
+        let metadata = null;
+
+        if (typeof itemData === 'object' && itemData !== null) {
+            idOrUrl = itemData.id || itemData.url;
+            metadata = itemData;
+        }
+
         const id = youtubeIdFromUrl(idOrUrl);
         const embed = id ? `https://www.youtube.com/embed/${id}` : idOrUrl;
 
@@ -667,6 +762,10 @@
         const wrapper = document.createElement('div');
         wrapper.className = 'video-wrapper';
         wrapper.setAttribute('data-video', embed + '?autoplay=1');
+        
+        if (metadata) {
+            wrapper.setAttribute('data-info', JSON.stringify(metadata));
+        }
 
         const iframe = document.createElement('iframe');
         iframe.src = embed;
@@ -678,15 +777,69 @@
         videoGrid.appendChild(item);
       });
 
-      // Re-bind click handlers for newly created wrappers
-      videoGrid.querySelectorAll('.video-wrapper').forEach(wrapper => {
+    // Helper to center modal content vertically
+    function centerModalContent() {
+      const modalInner = document.querySelector('.modal-inner');
+      if (!modalInner) return;
+      
+      // Calculate video height based on 80vw width and 16/9 ratio
+      // Max width is 1000px
+      const viewportW = window.innerWidth;
+      const viewportH = window.innerHeight;
+      const width = Math.min(viewportW * 0.8, 1000);
+      const height = width * (9/16);
+      
+      // Calculate top margin to center the video part
+      const topMargin = Math.max(20, (viewportH - height) / 2);
+      
+      modalInner.style.marginTop = `${topMargin}px`;
+    }
+
+    // Re-bind click handlers for newly created wrappers
+    videoGrid.querySelectorAll('.video-wrapper').forEach(wrapper => {
         wrapper.addEventListener('click', function() {
           const videoUrl = this.getAttribute('data-video');
+          const infoData = this.getAttribute('data-info');
+          
           const modal = document.getElementById('videoModal');
           const iframe = document.getElementById('modalIframe');
+          const infoDiv = document.getElementById('videoInfo');
+          const titleEl = document.getElementById('videoTitle');
+          const creditsEl = document.getElementById('videoCredits');
+          const toggleInfoBtn = document.getElementById('toggleInfo');
+
           iframe.src = videoUrl;
+          
+          // Reset info state
+          infoDiv.classList.remove('visible', 'active-block');
+          toggleInfoBtn.classList.add('hidden');
+          
+          if (infoData) {
+             try {
+                 const data = JSON.parse(infoData);
+                 titleEl.textContent = data.title || '';
+                 
+                 let creditsHtml = '';
+                 if (data.credits) {
+                     // Iterate over all keys in credits object to allow custom labels
+                     for (const [role, name] of Object.entries(data.credits)) {
+                         creditsHtml += `<p><strong>${role}:</strong> ${name}</p>`;
+                     }
+                 }
+                 creditsEl.innerHTML = creditsHtml;
+                 
+                 // Show toggle button if we have data
+                 toggleInfoBtn.classList.remove('hidden');
+             } catch (e) {
+                 console.error('Error parsing video metadata', e);
+             }
+          }
+
           modal.classList.add('active');
           document.body.style.overflow = 'hidden';
+          
+          // Center the modal content
+          centerModalContent();
           
           // Hide theme toggle when modal is open
           const themeToggle = document.getElementById('theme-toggle');
@@ -763,14 +916,32 @@
         const videoUrl = this.getAttribute('data-video');
         const modal = document.getElementById('videoModal');
         const iframe = document.getElementById('modalIframe');
+        
+        // Reset info state
+        const infoDiv = document.getElementById('videoInfo');
+        const toggleInfoBtn = document.getElementById('toggleInfo');
+        if (infoDiv) infoDiv.classList.remove('visible', 'active-block');
+        if (toggleInfoBtn) toggleInfoBtn.classList.add('hidden');
+
         iframe.src = videoUrl;
         modal.classList.add('active');
         document.body.style.overflow = 'hidden';
+
+        // Center the modal content
+        centerModalContent();
 
         // Hide theme toggle when modal is open
         const themeToggle = document.getElementById('theme-toggle');
         if (themeToggle) themeToggle.style.display = 'none';
       });
+    });
+
+    // Recalculate center on resize if modal is open
+    window.addEventListener('resize', () => {
+      const modal = document.getElementById('videoModal');
+      if (modal.classList.contains('active')) {
+        centerModalContent();
+      }
     });
 
     // Close video modal
@@ -790,12 +961,65 @@
       }
     });
 
+    // Toggle info button
+    document.getElementById('toggleInfo').addEventListener('click', function() {
+      const infoDiv = document.getElementById('videoInfo');
+      const isVisible = infoDiv.classList.contains('visible');
+      
+      if (!isVisible) {
+        infoDiv.classList.add('active-block');
+        // Trigger reflow
+        void infoDiv.offsetWidth;
+        infoDiv.classList.add('visible');
+        this.innerHTML = `
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+          Zavřít info
+        `;
+      } else {
+        infoDiv.classList.remove('visible');
+        setTimeout(() => {
+          infoDiv.classList.remove('active-block');
+        }, 300);
+        this.innerHTML = `
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="16" x2="12" y2="12"></line>
+            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+          </svg>
+          Info
+        `;
+      }
+    });
+
     function closeVideoModal() {
       const modal = document.getElementById('videoModal');
       const iframe = document.getElementById('modalIframe');
+      const infoDiv = document.getElementById('videoInfo');
+      const toggleBtn = document.getElementById('toggleInfo');
+      const modalInner = document.querySelector('.modal-inner');
+
       modal.classList.remove('active');
       iframe.src = '';
       document.body.style.overflow = '';
+      
+      // Reset margin
+      if (modalInner) modalInner.style.marginTop = '';
+
+      // Reset info
+      infoDiv.classList.remove('visible', 'active-block');
+      toggleBtn.classList.add('hidden');
+      // Reset button text
+      toggleBtn.innerHTML = `
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="16" x2="12" y2="12"></line>
+            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+          </svg>
+          Info
+      `;
 
       // Show theme toggle when modal is closed
       const themeToggle = document.getElementById('theme-toggle');
