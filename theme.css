@@ -193,6 +193,31 @@ header h1 a:hover {
     left: 0;
   }
 
+  /* Menu Items Animation */
+  @keyframes slideInItem {
+    from {
+      opacity: 0;
+      transform: translateX(-30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  nav.active .menu-close,
+  nav.active a,
+  nav.active #theme-toggle {
+    opacity: 0;
+    animation: slideInItem 0.5s ease forwards;
+  }
+
+  nav.active .menu-close { animation-delay: 0.1s; }
+  nav.active a:nth-of-type(1) { animation-delay: 0.2s; }
+  nav.active a:nth-of-type(2) { animation-delay: 0.3s; }
+  nav.active a:nth-of-type(3) { animation-delay: 0.4s; }
+  nav.active #theme-toggle { animation-delay: 0.5s; }
+
   .menu-close {
     display: block;
   }
