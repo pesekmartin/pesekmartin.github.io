@@ -123,6 +123,7 @@ nav a:hover {
     justify-content: flex-start;
     margin-bottom: 0;
     border-right: 1px solid var(--card-border);
+    gap: 0; /* Remove flex gap, control spacing with padding on items */
   }
 
   nav.active {
@@ -135,9 +136,10 @@ nav a:hover {
   
   nav a {
     font-size: 1.2rem;
-    margin-bottom: 15px;
+    margin-bottom: 0;
     display: block;
     width: 100%;
+    padding: 10px 0; /* Add some padding for better touch target */
   }
   
   /* Ensure theme toggle has margin */
