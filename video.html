@@ -377,9 +377,12 @@
       }
       
       /* Modal adjustments */
-      .modal-content {
+      .modal-inner {
         width: 90vw;
-        margin: 20px;
+      }
+      .modal-content {
+        width: 100%;
+        margin: 0;
       }
     }
 
@@ -405,9 +408,12 @@
       }
       
       /* Modal mobile adjustments */
-      .modal-content {
+      .modal-inner {
         width: 95vw;
-        margin: 10px;
+      }
+      .modal-content {
+        width: 100%;
+        margin: 0;
       }
       
       .close-modal {
@@ -749,15 +755,26 @@
       const modalInner = document.querySelector('.modal-inner');
       if (!modalInner) return;
       
-      // Calculate video height based on 80vw width and 16/9 ratio
-      // Max width is 1000px
       const viewportW = window.innerWidth;
       const viewportH = window.innerHeight;
-      const width = Math.min(viewportW * 0.8, 1000);
+      
+      // Determine width based on CSS rules to match actual rendered size
+      let widthFactor = 0.8;
+      if (viewportW <= 600) widthFactor = 0.95;
+      else if (viewportW <= 900) widthFactor = 0.90;
+      
+      const width = Math.min(viewportW * widthFactor, 1000);
       const height = width * (9/16);
       
-      // Calculate top margin to center the video part
-      const topMargin = Math.max(20, (viewportH - height) / 2);
+      // Calculate top margin
+      // Default: center vertically
+      let topMargin = Math.max(20, (viewportH - height) / 2);
+      
+      // On mobile/tablet, move it higher as requested
+      if (viewportW <= 900) {
+         // Position it higher up (approx 15% from top), but keep clear of top edge/close button
+         topMargin = Math.max(70, viewportH * 0.15);
+      }
       
       modalInner.style.marginTop = `${topMargin}px`;
     }
