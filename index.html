@@ -17,11 +17,12 @@
   <link rel="preload" as="image" href="images/foto5.jpg">
   <link rel="preload" as="image" href="images/foto6.jpg">
 
+  <link rel="stylesheet" href="theme.css">
   <style>
     body {
       font-family: 'Special Gothic Expanded One', sans-serif;
-      background-color: #000;
-      color: #fff;
+      background-color: var(--bg-color);
+      color: var(--text-color);
       margin: 0;
       padding: 0;
       width: 100%;
@@ -36,7 +37,7 @@
     }
 
     header {
-      background: #000;
+      background: var(--header-bg);
       padding: 20px;
       position: relative;
       max-width: 1000px;
@@ -48,14 +49,21 @@
     nav {
       position: absolute;
       left: 20px;
+      right: 20px;
       top: 20px;
       display: flex;
       gap: 15px;
       flex-wrap: wrap;
+      pointer-events: none;
+      align-items: center;
+    }
+
+    nav a, nav button {
+      pointer-events: auto;
     }
 
     nav a {
-      color: white;
+      color: var(--nav-link-color);
       text-decoration: none;
       font-weight: bold;
       font-size: 1rem;
@@ -71,7 +79,7 @@
     }
 
     header h1 a {
-      color: #fff;
+      color: var(--text-color);
       text-decoration: none;
       transition: color 0.3s ease;
     }
@@ -90,13 +98,13 @@
     }
 
     .section-preview {
-      background: #111;
+      background: var(--card-bg);
       border-radius: 15px;
       padding: 0;
       text-align: center;
       cursor: pointer;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
-      border: 2px solid #333;
+      border: 2px solid var(--card-border);
       position: relative;
       overflow: hidden;
       height: 250px;
@@ -104,8 +112,8 @@
 
     .section-preview:hover {
       transform: scale(1.02);
-      box-shadow: 0 10px 30px rgba(255, 255, 255, 0.1);
-      border-color: #555;
+      box-shadow: 0 10px 30px var(--shadow-color);
+      border-color: var(--card-border-hover);
     }
 
     .preview-background {
@@ -169,7 +177,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.6);
+      background: var(--overlay-bg);
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -178,7 +186,7 @@
     }
 
     .section-preview:hover .preview-overlay {
-      background: rgba(0, 0, 0, 0.4);
+      background: var(--overlay-bg-hover);
     }
 
     .section-preview h3 {
@@ -202,8 +210,8 @@
 
     .back-button {
       background: transparent;
-      color: #fff;
-      border: 2px solid #fff;
+      color: var(--back-button-color);
+      border: 2px solid var(--back-button-border);
       padding: 10px 20px;
       border-radius: 8px;
       cursor: pointer;
@@ -214,7 +222,7 @@
     }
 
     .back-button:hover {
-      background: rgba(255, 255, 255, 0.1);
+      background: var(--button-hover-bg);
       border-color: #ccc;
     }
 
@@ -289,7 +297,7 @@
       width: 100vw;
       height: 100vh;
       overflow: auto;
-      background: rgba(0,0,0,0.9);
+      background: var(--modal-bg);
       justify-content: center;
       align-items: center;
     }
@@ -301,9 +309,9 @@
       width: 80vw;
       max-width: 1000px;
       aspect-ratio: 16/9;
-      background: #000;
+      background: var(--modal-content-bg);
       border-radius: 15px;
-      box-shadow: 0 0 40px #000;
+      box-shadow: 0 0 40px var(--modal-shadow);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -424,7 +432,7 @@
     }
 
     .photo-thumbnail.active {
-      border-color: #fff;
+      border-color: var(--text-color);
       opacity: 1;
     }
 
@@ -458,7 +466,7 @@
 
     .photo-info {
       text-align: center;
-      color: #ccc;
+      color: var(--info-text-color);
       margin-bottom: 10px;
     }
     
@@ -466,7 +474,7 @@
       position: absolute;
       top: 10px;
       right: 20px;
-      color: #fff;
+      color: var(--text-color);
       font-size: 2rem;
       background: none;
       border: none;
@@ -476,7 +484,7 @@
     footer {
       text-align: center;
       padding: 20px;
-      background: #000;
+      background: var(--bg-color);
       margin-top: 40px;
       max-width: 1000px;
       width: 100%;
@@ -526,6 +534,7 @@
       nav {
         position: relative;
         left: auto;
+        right: auto;
         top: auto;
         justify-content: center;
         margin-bottom: 15px;
@@ -752,6 +761,7 @@
       nav {
         position: fixed;
         left: 24px;
+        right: 24px;
         top: 20px;
         z-index: 2000;
       }
@@ -958,5 +968,6 @@
       initVideoSlideshow();
     });
   </script>
+  <script src="theme.js"></script>
 </body>
 </html>

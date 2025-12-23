@@ -1,0 +1,112 @@
+:root {
+  --bg-color: #000;
+  --text-color: #fff;
+  --header-bg: #000;
+  --nav-link-color: #fff;
+  --nav-link-hover: #ccc;
+  --card-bg: #111;
+  --card-border: #333;
+  --card-border-hover: #555;
+  --shadow-color: rgba(255, 255, 255, 0.1);
+  --overlay-bg: rgba(0, 0, 0, 0.6);
+  --overlay-bg-hover: rgba(0, 0, 0, 0.4);
+  --modal-bg: rgba(0,0,0,0.9);
+  --modal-content-bg: #000;
+  --modal-shadow: #000;
+  --button-border: #fff;
+  --button-hover-bg: rgba(255, 255, 255, 0.1);
+  --back-button-color: #fff;
+  --back-button-border: #fff;
+  --info-text-color: #ccc;
+  --profile-border: rgba(255, 255, 255, 0.2);
+  --profile-border-hover: rgba(255, 255, 255, 0.4);
+  --contact-box-bg: rgba(255, 255, 255, 0.05);
+  --contact-box-border: rgba(255, 255, 255, 0.1);
+  --contact-box-bg-hover: rgba(255, 255, 255, 0.1);
+  --contact-box-border-hover: rgba(255, 255, 255, 0.2);
+}
+
+body.light-mode {
+  --bg-color: #f5f5f5;
+  --text-color: #111;
+  --header-bg: #f5f5f5;
+  --nav-link-color: #111;
+  --nav-link-hover: #555;
+  --card-bg: #fff;
+  --card-border: #ccc;
+  --card-border-hover: #999;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  --overlay-bg: rgba(0, 0, 0, 0.3);
+  --overlay-bg-hover: rgba(0, 0, 0, 0.1);
+  --modal-bg: rgba(255,255,255,0.95);
+  --modal-content-bg: #fff;
+  --modal-shadow: #ccc;
+  --button-border: #111;
+  --button-hover-bg: rgba(0, 0, 0, 0.1);
+  --back-button-color: #111;
+  --back-button-border: #111;
+  --info-text-color: #555;
+  --profile-border: rgba(0, 0, 0, 0.2);
+  --profile-border-hover: rgba(0, 0, 0, 0.4);
+  --contact-box-bg: rgba(0, 0, 0, 0.05);
+  --contact-box-border: rgba(0, 0, 0, 0.1);
+  --contact-box-bg-hover: rgba(0, 0, 0, 0.1);
+  --contact-box-border-hover: rgba(0, 0, 0, 0.2);
+}
+
+/* Theme toggle button styles */
+#theme-toggle {
+  background: transparent;
+  border: none;
+  color: var(--text-color);
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 50%;
+  transition: background-color 0.3s, transform 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
+}
+
+#theme-toggle:hover {
+  background-color: var(--button-hover-bg);
+  transform: rotate(15deg);
+}
+
+@media (max-width: 900px) {
+  #theme-toggle {
+    margin-left: 0;
+  }
+}
+
+body {
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Smooth transition for theme changes */
+body, 
+header, 
+footer, 
+.section-preview, 
+.modal-content, 
+.photo-thumbnail, 
+.contact-info p, 
+.profile-photo,
+.back-button,
+nav a,
+header h1 a,
+.folder-wrapper,
+.close-modal,
+.preview-overlay,
+.photo-info,
+.modal {
+  transition: background-color 0.3s ease, 
+              background 0.3s ease, 
+              color 0.3s ease, 
+              border-color 0.3s ease, 
+              box-shadow 0.3s ease, 
+              transform 0.3s ease,
+              opacity 0.3s ease !important;
+}
